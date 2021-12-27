@@ -1,6 +1,6 @@
 # i_go_by
 
-A new Flutter project.
+A new Flutter project. Work began on the 18th of December, but I neglected to use Github until now.
 
 ## Getting Started
 

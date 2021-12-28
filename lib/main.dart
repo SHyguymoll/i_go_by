@@ -78,15 +78,31 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const MyHomePage(title: 'Main Page'),
+      home: const MyHomePage(
+          title: 'Main Page',
+          nom: 'He',
+          acc: 'Him',
+          gen: 'His',
+          ref: 'Himself'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage(
+      {Key? key,
+      required this.title,
+      required this.nom,
+      required this.acc,
+      required this.gen,
+      required this.ref})
+      : super(key: key);
 
   final String title;
+  final String nom;
+  final String acc;
+  final String gen;
+  final String ref;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -99,8 +115,32 @@ class _MyHomePageState extends State<MyHomePage> {
     await tts.speak(phrase);
   }
 
+  void _affirmScreenReturn(BuildContext context, String nomgiven,
+      String accgiven, String gengiven, String refgiven) async {
+    final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => AffirmPage(
+                title: "Affirm",
+                nom: nomgiven,
+                acc: accgiven,
+                gen: gengiven,
+                ref: refgiven)));
+    setState(() {
+      nomgiven = result[0];
+      accgiven = result[1];
+      gengiven = result[2];
+      refgiven = result[3];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    String nomfluid = widget.nom;
+    String accfluid = widget.acc;
+    String genfluid = widget.gen;
+    String reffluid = widget.ref;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -120,16 +160,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 textStyle: const TextStyle(fontSize: 35),
               ),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => AffirmPage(
-                          title: "Affirm",
-                          nom: getNom(),
-                          acc: getAcc(),
-                          gen: getGen(),
-                          ref: getRef())),
-                );
+                _affirmScreenReturn(
+                    context, nomfluid, accfluid, genfluid, reffluid);
               },
               child: const Text('Affirm'),
             ),
@@ -141,7 +173,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => SettingsPage(title: "Settings")),
+                      builder: (context) => SettingsPage(
+                          title: "Settings",
+                          nom: getNom(),
+                          acc: getAcc(),
+                          gen: getGen(),
+                          ref: getRef())),
                 );
               },
               child: const Text('Settings'),

@@ -168,6 +168,20 @@ class _AffirmPageState extends State<AffirmPage> {
               'Uses: $_counter',
               style: const TextStyle(fontSize: 20),
             ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: const TextStyle(fontSize: 35),
+              ),
+              onPressed: () {
+                Navigator.pop(context, [
+                  widget.nom,
+                  widget.acc,
+                  widget.gen,
+                  widget.ref,
+                ]);
+              },
+              child: const Text('Back'),
+            ),
           ],
         ),
       ),

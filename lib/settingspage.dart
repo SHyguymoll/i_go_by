@@ -94,9 +94,25 @@ class _SettingsPageState extends State<SettingsPage> {
                     }),
               ],
             ),
+            Divider(color: Colors.black),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
+            ),
+            Divider(color: Colors.black),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: const TextStyle(fontSize: 35),
+              ),
+              onPressed: () {
+                Navigator.pop(context, [
+                  widget.nom,
+                  widget.acc,
+                  widget.gen,
+                  widget.ref,
+                ]);
+              },
+              child: const Text('Back'),
             ),
           ],
         ),

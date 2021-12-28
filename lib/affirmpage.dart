@@ -168,6 +168,7 @@ class _AffirmPageState extends State<AffirmPage> {
               'Uses: $_counter',
               style: const TextStyle(fontSize: 20),
             ),
+            Divider(color: Colors.black),
             TextButton(
               style: TextButton.styleFrom(
                 textStyle: const TextStyle(fontSize: 35),

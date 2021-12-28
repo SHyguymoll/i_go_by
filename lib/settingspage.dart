@@ -34,6 +34,29 @@ class _SettingsPageState extends State<SettingsPage> {
                   color: Colors.purple,
                   fontWeight: FontWeight.bold,
                 )),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text(
+                  'Defaults',
+                  style: TextStyle(
+                    color: Colors.deepPurple,
+                    fontSize: 20,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+                DropdownButton(
+                    //I love API documentation
+                    items: <String>['Male', 'Female', 'Nonbinary', 'Custom']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: () {}),
+              ],
+            ),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,

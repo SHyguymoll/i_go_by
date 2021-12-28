@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key? key, required this.title}) : super(key: key);
+  const SettingsPage(
+      {Key? key,
+      required this.title,
+      required this.nom,
+      required this.acc,
+      required this.gen,
+      required this.ref})
+      : super(key: key);
 
+  final String nom;
+  final String acc;
+  final String gen;
+  final String ref;
   final String title;
 
   @override
@@ -20,6 +31,26 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    String dropdownValue = '';
+    if (widget.nom == 'He' &&
+        widget.acc == 'Him' &&
+        widget.gen == 'His' &&
+        widget.ref == 'Himself') {
+      dropdownValue = 'Male';
+    } else if (widget.nom == 'She' &&
+        widget.acc == 'Her' &&
+        widget.gen == 'Her' &&
+        widget.ref == 'Herself') {
+      dropdownValue = 'Female';
+    } else if (widget.nom == 'They' &&
+        widget.acc == 'Them' &&
+        widget.gen == 'Their' &&
+        widget.ref == 'Themself') {
+      dropdownValue = 'Nonbinary';
+    } else {
+      dropdownValue = 'Custom';
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -46,6 +77,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 DropdownButton(
+                    value: dropdownValue,
                     //I love API documentation
                     items: <String>['Male', 'Female', 'Nonbinary', 'Custom']
                         .map<DropdownMenuItem<String>>((String value) {
@@ -54,7 +86,12 @@ class _SettingsPageState extends State<SettingsPage> {
                         child: Text(value),
                       );
                     }).toList(),
-                    onChanged: () {}),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        dropdownValue = newValue!;
+                        if (dropdownValue == 'Male') {}
+                      });
+                    }),
               ],
             ),
             Text(

@@ -21,40 +21,85 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     String dropdownValue = '';
-    if (widget.nom == 'He' &&
-        widget.acc == 'Him' &&
-        widget.gen == 'His' &&
-        widget.ref == 'Himself') {
-      dropdownValue = 'Male';
-    } else if (widget.nom == 'She' &&
-        widget.acc == 'Her' &&
-        widget.gen == 'Her' &&
-        widget.ref == 'Herself') {
-      dropdownValue = 'Female';
-    } else if (widget.nom == 'They' &&
-        widget.acc == 'Them' &&
-        widget.gen == 'Their' &&
-        widget.ref == 'Themself') {
-      dropdownValue = 'Nonbinary';
-    } else {
-      dropdownValue = 'Custom';
+
+    bool checkEnabled = false;
+    void updateDropDown() {
+      if (widget.nom == 'He' &&
+          widget.acc == 'Him' &&
+          widget.gen == 'His' &&
+          widget.ref == 'Himself') {
+        dropdownValue = 'Male';
+      } else if (widget.nom == 'She' &&
+          widget.acc == 'Her' &&
+          widget.gen == 'Her' &&
+          widget.ref == 'Herself') {
+        dropdownValue = 'Female';
+      } else if (widget.nom == 'They' &&
+          widget.acc == 'Them' &&
+          widget.gen == 'Their' &&
+          widget.ref == 'Themself') {
+        dropdownValue = 'Nonbinary';
+      } else {
+        dropdownValue = 'Custom';
+        checkEnabled = true;
+      }
+    }
+
+    updateDropDown();
+
+    const Divider myDiv = Divider(
+      color: Colors.black,
+      thickness: 1,
+      indent: 15,
+      endIndent: 15,
+    );
+
+    String? labelDecide(int choice) {
+      switch (choice) {
+        case 0: //Nominative
+          if (dropdownValue == 'Male') {
+            return 'He';
+          } else if (dropdownValue == 'Female') {
+            return 'She';
+          } else if (dropdownValue == 'Nonbinary') {
+            return 'They';
+          }
+          break;
+        case 1: //Accusative
+          if (dropdownValue == 'Male') {
+            return 'Him';
+          } else if (dropdownValue == 'Female') {
+            return 'Her';
+          } else if (dropdownValue == 'Nonbinary') {
+            return 'Them';
+          }
+          break;
+        case 2: //Genitive
+          if (dropdownValue == 'Male') {
+            return 'His';
+          } else if (dropdownValue == 'Female') {
+            return 'Her';
+          } else if (dropdownValue == 'Nonbinary') {
+            return 'Their';
+          }
+          break;
+        case 3: //Reflexive
+          if (dropdownValue == 'Male') {
+            return 'Himself';
+          } else if (dropdownValue == 'Female') {
+            return 'Herself';
+          } else if (dropdownValue == 'Nonbinary') {
+            return 'Themselves';
+          }
+          break;
+      }
+      return null;
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -66,7 +111,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   fontWeight: FontWeight.bold,
                 )),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 const Text(
                   'Defaults',
@@ -77,32 +122,115 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 DropdownButton(
-                    value: dropdownValue,
-                    //I love API documentation
-                    items: <String>['Male', 'Female', 'Nonbinary', 'Custom']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        dropdownValue = newValue!;
-                        if (dropdownValue == 'Male') {}
-                      });
-                    }),
+                  value: dropdownValue,
+                  //I love API documentation
+                  items: <String>['Male', 'Female', 'Nonbinary', 'Custom']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (String? value) {
+                    setState(() {
+                      dropdownValue = value!;
+                      if (value == 'Male' ||
+                          value == 'Female' ||
+                          value == 'Nonbinary') {
+                        checkEnabled = false;
+                      } else {
+                        checkEnabled = true;
+                      }
+                    });
+                  },
+                ),
               ],
             ),
-            Divider(color: Colors.black),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            myDiv,
+            Row(
+              //Nom
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text(
+                  'Nominative (He):',
+                  style: TextStyle(
+                    color: Colors.purple,
+                    fontSize: 15,
+                  ),
+                ),
+                SizedBox(
+                  width: 150,
+                  child: TextField(
+                    enabled: checkEnabled,
+                    controller: TextEditingController(text: labelDecide(0)),
+                  ),
+                )
+              ],
             ),
-            Divider(color: Colors.black),
+            Row(
+              //Acc
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text(
+                  'Accusative (Her):',
+                  style: TextStyle(
+                    color: Colors.purple,
+                    fontSize: 15,
+                  ),
+                ),
+                SizedBox(
+                  width: 150,
+                  child: TextField(
+                    enabled: checkEnabled,
+                    controller: TextEditingController(text: labelDecide(1)),
+                  ),
+                )
+              ],
+            ),
+            Row(
+              //Gen
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text(
+                  'Genitive (Their):',
+                  style: TextStyle(
+                    color: Colors.purple,
+                    fontSize: 15,
+                  ),
+                ),
+                SizedBox(
+                  width: 150,
+                  child: TextField(
+                    enabled: checkEnabled,
+                    controller: TextEditingController(text: labelDecide(2)),
+                  ),
+                )
+              ],
+            ),
+            Row(
+              //Ref
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Text(
+                  'Reflexive (Himself):',
+                  style: TextStyle(
+                    color: Colors.purple,
+                    fontSize: 15,
+                  ),
+                ),
+                SizedBox(
+                  width: 150,
+                  child: TextField(
+                    enabled: checkEnabled,
+                    controller: TextEditingController(text: labelDecide(3)),
+                  ),
+                )
+              ],
+            ),
+            myDiv,
             TextButton(
               style: TextButton.styleFrom(
-                textStyle: const TextStyle(fontSize: 35),
+                textStyle: const TextStyle(fontSize: 25),
               ),
               onPressed: () {
                 Navigator.pop(context, [
@@ -116,11 +244,6 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }

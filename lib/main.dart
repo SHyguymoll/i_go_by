@@ -109,6 +109,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final Divider myDiv = Divider(
+    color: Colors.black,
+    thickness: 1,
+    indent: 15,
+    endIndent: 15,
+  );
+
   FlutterTts tts = FlutterTts();
 
   Future _speak(String phrase) async {
@@ -142,9 +149,6 @@ class _MyHomePageState extends State<MyHomePage> {
     String reffluid = widget.ref;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -175,10 +179,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   MaterialPageRoute(
                       builder: (context) => SettingsPage(
                           title: "Settings",
-                          nom: getNom(),
-                          acc: getAcc(),
-                          gen: getGen(),
-                          ref: getRef())),
+                          nom: nomfluid,
+                          acc: accfluid,
+                          gen: genfluid,
+                          ref: reffluid)),
                 );
               },
               child: const Text('Settings'),
@@ -187,6 +191,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ' ',
               style: Theme.of(context).textTheme.headline4,
             ),
+            myDiv,
             Text(
               'Quick Use',
               style: Theme.of(context).textTheme.headline5,
@@ -198,29 +203,29 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: TextButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 25),
                   ),
-                  onPressed: () => _speak(getNom()),
-                  child: Text(getNom()),
+                  onPressed: () => _speak(nomfluid),
+                  child: Text(nomfluid),
                 ),
                 TextButton(
                   style: TextButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 25),
                   ),
-                  onPressed: () => _speak(getAcc()),
-                  child: Text(getAcc()),
+                  onPressed: () => _speak(accfluid),
+                  child: Text(accfluid),
                 ),
                 TextButton(
                   style: TextButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 25),
                   ),
-                  onPressed: () => _speak(getGen()),
-                  child: Text(getGen()),
+                  onPressed: () => _speak(genfluid),
+                  child: Text(genfluid),
                 ),
                 TextButton(
                   style: TextButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 25),
                   ),
-                  onPressed: () => _speak(getRef()),
-                  child: Text(getRef()),
+                  onPressed: () => _speak(reffluid),
+                  child: Text(reffluid),
                 ),
               ],
             ),

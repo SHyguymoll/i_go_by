@@ -26,6 +26,13 @@ enum TtsState { playing, stopped, paused, continued }
 class _AffirmPageState extends State<AffirmPage> {
   int _counter = 0;
 
+  final Divider myDiv = Divider(
+    color: Colors.black,
+    thickness: 1,
+    indent: 15,
+    endIndent: 15,
+  );
+
   FlutterTts tts = FlutterTts();
 
   Future _speak(String phrase) async {
@@ -41,9 +48,6 @@ class _AffirmPageState extends State<AffirmPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -168,10 +172,10 @@ class _AffirmPageState extends State<AffirmPage> {
               'Uses: $_counter',
               style: const TextStyle(fontSize: 20),
             ),
-            Divider(color: Colors.black),
+            myDiv,
             TextButton(
               style: TextButton.styleFrom(
-                textStyle: const TextStyle(fontSize: 35),
+                textStyle: const TextStyle(fontSize: 25),
               ),
               onPressed: () {
                 Navigator.pop(context, [

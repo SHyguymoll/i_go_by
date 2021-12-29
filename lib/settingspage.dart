@@ -23,9 +23,15 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
-    String dropdownValue = '';
+    String? dropdownValue;
 
     bool checkEnabled = false;
+
+    String nomSettings = widget.nom;
+    String accSettings = widget.acc;
+    String genSettings = widget.gen;
+    String refSettings = widget.ref;
+
     void updateDropDown() {
       if (widget.nom == 'He' &&
           widget.acc == 'Him' &&
@@ -163,6 +169,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: TextField(
                     enabled: checkEnabled,
                     controller: TextEditingController(text: labelDecide(0)),
+                    onSubmitted: (value) {
+                      nomSettings = value;
+                    },
                   ),
                 )
               ],
@@ -183,6 +192,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: TextField(
                     enabled: checkEnabled,
                     controller: TextEditingController(text: labelDecide(1)),
+                    onSubmitted: (value) {
+                      accSettings = value;
+                    },
                   ),
                 )
               ],
@@ -203,6 +215,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: TextField(
                     enabled: checkEnabled,
                     controller: TextEditingController(text: labelDecide(2)),
+                    onSubmitted: (value) {
+                      genSettings = value;
+                    },
                   ),
                 )
               ],
@@ -223,6 +238,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: TextField(
                     enabled: checkEnabled,
                     controller: TextEditingController(text: labelDecide(3)),
+                    onSubmitted: (value) {
+                      refSettings = value;
+                    },
                   ),
                 )
               ],
@@ -234,10 +252,10 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               onPressed: () {
                 Navigator.pop(context, [
-                  widget.nom,
-                  widget.acc,
-                  widget.gen,
-                  widget.ref,
+                  nomSettings,
+                  accSettings,
+                  genSettings,
+                  refSettings,
                 ]);
               },
               child: const Text('Back'),

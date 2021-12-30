@@ -109,7 +109,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final Divider myDiv = Divider(
+  final Divider myDiv = const Divider(
     color: Colors.black,
     thickness: 1,
     indent: 15,

@@ -26,7 +26,7 @@ enum TtsState { playing, stopped, paused, continued }
 class _AffirmPageState extends State<AffirmPage> {
   int _counter = 0;
 
-  final Divider myDiv = Divider(
+  final Divider myDiv = const Divider(
     color: Colors.black,
     thickness: 1,
     indent: 15,

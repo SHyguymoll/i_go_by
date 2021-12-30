@@ -20,36 +20,47 @@ class SettingsPage extends StatefulWidget {
   State<SettingsPage> createState() => _SettingsPageState();
 }
 
+enum RadioOptions { male, female, nonbinary, custom }
+
 class _SettingsPageState extends State<SettingsPage> {
+  RadioOptions? radioPicked = RadioOptions.male;
+
+  bool checkEnabled = false;
+  bool firstInit = true;
+
+  String? nomSettings;
+  String? accSettings;
+  String? genSettings;
+  String? refSettings;
+
   @override
   Widget build(BuildContext context) {
-    String? dropdownValue;
-
-    bool checkEnabled = false;
-
-    String nomSettings = widget.nom;
-    String accSettings = widget.acc;
-    String genSettings = widget.gen;
-    String refSettings = widget.ref;
+    if (firstInit) {
+      nomSettings = widget.nom;
+      accSettings = widget.acc;
+      genSettings = widget.gen;
+      refSettings = widget.ref;
+      firstInit = false;
+    }
 
     void updateDropDown() {
       if (widget.nom == 'He' &&
           widget.acc == 'Him' &&
           widget.gen == 'His' &&
           widget.ref == 'Himself') {
-        dropdownValue = 'Male';
+        radioPicked = RadioOptions.male;
       } else if (widget.nom == 'She' &&
           widget.acc == 'Her' &&
           widget.gen == 'Her' &&
           widget.ref == 'Herself') {
-        dropdownValue = 'Female';
+        radioPicked = RadioOptions.female;
       } else if (widget.nom == 'They' &&
           widget.acc == 'Them' &&
           widget.gen == 'Their' &&
           widget.ref == 'Themself') {
-        dropdownValue = 'Nonbinary';
+        radioPicked = RadioOptions.nonbinary;
       } else {
-        dropdownValue = 'Custom';
+        radioPicked = RadioOptions.custom;
         checkEnabled = true;
       }
     }
@@ -66,38 +77,38 @@ class _SettingsPageState extends State<SettingsPage> {
     String? labelDecide(int choice) {
       switch (choice) {
         case 0: //Nominative
-          if (dropdownValue == 'Male') {
+          if (radioPicked == RadioOptions.male) {
             return 'He';
-          } else if (dropdownValue == 'Female') {
+          } else if (radioPicked == RadioOptions.female) {
             return 'She';
-          } else if (dropdownValue == 'Nonbinary') {
+          } else if (radioPicked == RadioOptions.nonbinary) {
             return 'They';
           }
           break;
         case 1: //Accusative
-          if (dropdownValue == 'Male') {
+          if (radioPicked == RadioOptions.male) {
             return 'Him';
-          } else if (dropdownValue == 'Female') {
+          } else if (radioPicked == RadioOptions.female) {
             return 'Her';
-          } else if (dropdownValue == 'Nonbinary') {
+          } else if (radioPicked == RadioOptions.nonbinary) {
             return 'Them';
           }
           break;
         case 2: //Genitive
-          if (dropdownValue == 'Male') {
+          if (radioPicked == RadioOptions.male) {
             return 'His';
-          } else if (dropdownValue == 'Female') {
+          } else if (radioPicked == RadioOptions.female) {
             return 'Her';
-          } else if (dropdownValue == 'Nonbinary') {
+          } else if (radioPicked == RadioOptions.nonbinary) {
             return 'Their';
           }
           break;
         case 3: //Reflexive
-          if (dropdownValue == 'Male') {
+          if (radioPicked == RadioOptions.male) {
             return 'Himself';
-          } else if (dropdownValue == 'Female') {
+          } else if (radioPicked == RadioOptions.female) {
             return 'Herself';
-          } else if (dropdownValue == 'Nonbinary') {
+          } else if (radioPicked == RadioOptions.nonbinary) {
             return 'Themselves';
           }
           break;
@@ -116,42 +127,46 @@ class _SettingsPageState extends State<SettingsPage> {
                   color: Colors.purple,
                   fontWeight: FontWeight.bold,
                 )),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                const Text(
-                  'Defaults',
-                  style: TextStyle(
-                    color: Colors.deepPurple,
-                    fontSize: 20,
-                    fontStyle: FontStyle.italic,
-                  ),
-                ),
-                DropdownButton(
-                  value: dropdownValue,
-                  //I love API documentation
-                  items: <String>['Male', 'Female', 'Nonbinary', 'Custom']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (String? value) {
-                    setState(() {
-                      dropdownValue = value!;
-                      if (value == 'Male' ||
-                          value == 'Female' ||
-                          value == 'Nonbinary') {
-                        checkEnabled = false;
-                      } else {
-                        checkEnabled = true;
-                      }
-                    });
-                  },
-                ),
-              ],
-            ),
+            RadioListTile<RadioOptions>(
+                title: const Text("Male"),
+                value: RadioOptions.male,
+                groupValue: radioPicked,
+                onChanged: (RadioOptions? value) {
+                  setState(() {
+                    radioPicked = value;
+                    checkEnabled = false;
+                  });
+                }),
+            RadioListTile<RadioOptions>(
+                title: const Text("Female"),
+                value: RadioOptions.female,
+                groupValue: radioPicked,
+                onChanged: (RadioOptions? value) {
+                  setState(() {
+                    radioPicked = value;
+                    checkEnabled = false;
+                  });
+                }),
+            RadioListTile<RadioOptions>(
+                title: const Text("Nonbinary"),
+                value: RadioOptions.nonbinary,
+                groupValue: radioPicked,
+                onChanged: (RadioOptions? value) {
+                  setState(() {
+                    radioPicked = value;
+                    checkEnabled = false;
+                  });
+                }),
+            RadioListTile<RadioOptions>(
+                title: const Text("Custom"),
+                value: RadioOptions.custom,
+                groupValue: radioPicked,
+                onChanged: (RadioOptions? value) {
+                  setState(() {
+                    radioPicked = value;
+                    checkEnabled = true;
+                  });
+                }),
             myDiv,
             Row(
               //Nom

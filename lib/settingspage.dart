@@ -103,11 +103,11 @@ class _SettingsPageState extends State<SettingsPage> {
                 groupValue: radioPicked,
                 onChanged: (RadioOptions? value) {
                   setState(() {
-                    radioPicked = value;
                     nomSettings = 'He';
                     accSettings = 'Him';
                     genSettings = 'His';
                     refSettings = 'Himself';
+                    radioPicked = value;
                     checkEnabled = false;
                   });
                 }),
@@ -117,11 +117,11 @@ class _SettingsPageState extends State<SettingsPage> {
                 groupValue: radioPicked,
                 onChanged: (RadioOptions? value) {
                   setState(() {
-                    radioPicked = value;
                     nomSettings = 'She';
                     accSettings = 'Her';
                     genSettings = 'Her';
                     refSettings = 'Herself';
+                    radioPicked = value;
                     checkEnabled = false;
                   });
                 }),
@@ -131,11 +131,11 @@ class _SettingsPageState extends State<SettingsPage> {
                 groupValue: radioPicked,
                 onChanged: (RadioOptions? value) {
                   setState(() {
-                    radioPicked = value;
                     nomSettings = 'They';
                     accSettings = 'Them';
                     genSettings = 'Their';
                     refSettings = 'Themself';
+                    radioPicked = value;
                     checkEnabled = false;
                   });
                 }),
@@ -145,13 +145,13 @@ class _SettingsPageState extends State<SettingsPage> {
                 groupValue: radioPicked,
                 onChanged: (RadioOptions? value) {
                   setState(() {
-                    radioPicked = value;
                     if (determineRadio() != 3) {
                       nomSettings = '';
                       accSettings = '';
                       genSettings = '';
                       refSettings = '';
                     }
+                    radioPicked = value;
                     checkEnabled = true;
                   });
                 }),

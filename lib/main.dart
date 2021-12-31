@@ -64,6 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String? accfluid;
   String? genfluid;
   String? reffluid;
+  List<Widget> quick = [];
   bool firstInit = true;
 
   //File? pronounFile;
@@ -82,6 +83,36 @@ class _MyHomePageState extends State<MyHomePage> {
     final List<String> _loaded = await pFile.readAsLines();
     setState(() {
       getPronounsFromFile(_loaded);
+      quick = <Widget>[
+        TextButton(
+          style: TextButton.styleFrom(
+            textStyle: const TextStyle(fontSize: 25),
+          ),
+          onPressed: () => _speak(nomfluid!),
+          child: Text(nomfluid!),
+        ),
+        TextButton(
+          style: TextButton.styleFrom(
+            textStyle: const TextStyle(fontSize: 25),
+          ),
+          onPressed: () => _speak(accfluid!),
+          child: Text(accfluid!),
+        ),
+        TextButton(
+          style: TextButton.styleFrom(
+            textStyle: const TextStyle(fontSize: 25),
+          ),
+          onPressed: () => _speak(genfluid!),
+          child: Text(genfluid!),
+        ),
+        TextButton(
+          style: TextButton.styleFrom(
+            textStyle: const TextStyle(fontSize: 25),
+          ),
+          onPressed: () => _speak(reffluid!),
+          child: Text(reffluid!),
+        ),
+      ];
     });
   }
 
@@ -131,6 +162,37 @@ class _MyHomePageState extends State<MyHomePage> {
       //genfluid = widget.gen;
       //reffluid = widget.ref;
       firstInit = false;
+    } else {
+      quick = <Widget>[
+        TextButton(
+          style: TextButton.styleFrom(
+            textStyle: const TextStyle(fontSize: 25),
+          ),
+          onPressed: () => _speak(nomfluid!),
+          child: Text(nomfluid!),
+        ),
+        TextButton(
+          style: TextButton.styleFrom(
+            textStyle: const TextStyle(fontSize: 25),
+          ),
+          onPressed: () => _speak(accfluid!),
+          child: Text(accfluid!),
+        ),
+        TextButton(
+          style: TextButton.styleFrom(
+            textStyle: const TextStyle(fontSize: 25),
+          ),
+          onPressed: () => _speak(genfluid!),
+          child: Text(genfluid!),
+        ),
+        TextButton(
+          style: TextButton.styleFrom(
+            textStyle: const TextStyle(fontSize: 25),
+          ),
+          onPressed: () => _speak(reffluid!),
+          child: Text(reffluid!),
+        ),
+      ];
     }
 
     return Scaffold(
@@ -179,7 +241,11 @@ class _MyHomePageState extends State<MyHomePage> {
               'Quick Use',
               style: Theme.of(context).textTheme.headline5,
             ),
-            //quickAccess, //broken due to file loading errors, fix later
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: quick,
+            )
+            //broken due to file loading errors, fix later
           ],
         ),
       ),
@@ -188,40 +254,6 @@ class _MyHomePageState extends State<MyHomePage> {
       //  tooltip: 'Increment',
       //  child: const Icon(Icons.add),
       //), // This trailing comma makes auto-formatting nicer for build methods.
-    );
-
-    Row quickAccess = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        TextButton(
-          style: TextButton.styleFrom(
-            textStyle: const TextStyle(fontSize: 25),
-          ),
-          onPressed: () => _speak(nomfluid!),
-          child: Text(nomfluid!),
-        ),
-        TextButton(
-          style: TextButton.styleFrom(
-            textStyle: const TextStyle(fontSize: 25),
-          ),
-          onPressed: () => _speak(accfluid!),
-          child: Text(accfluid!),
-        ),
-        TextButton(
-          style: TextButton.styleFrom(
-            textStyle: const TextStyle(fontSize: 25),
-          ),
-          onPressed: () => _speak(genfluid!),
-          child: Text(genfluid!),
-        ),
-        TextButton(
-          style: TextButton.styleFrom(
-            textStyle: const TextStyle(fontSize: 25),
-          ),
-          onPressed: () => _speak(reffluid!),
-          child: Text(reffluid!),
-        ),
-      ],
     );
   }
 }

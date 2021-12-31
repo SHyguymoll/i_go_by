@@ -1,55 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:path_provider/path_provider.dart';
-//import 'package:permission_handler/permission_handler.dart';
 
 import 'dart:io';
 
 import 'affirmpage.dart';
 import 'settingspage.dart';
-
-Future<String> getlocalFilePath() async {
-  return (await getApplicationDocumentsDirectory()).path + '/pronouns.txt';
-}
-
-File get _localFile {
-  var path = getlocalFilePath();
-  if (!File('$path').existsSync()) {
-    File('$path').createSync();
-  }
-  return File('$path');
-}
-
-void writePronouns(String nom, String acc, String gen, String ref) {
-  final file = _localFile;
-  // Write the file
-  file.writeAsString('$nom\n$acc\n$gen\n$ref');
-}
-
-//String getNom() {
-//  String decode = readPronouns(); //Pretend decode = he(\n)him(\n)his(\n)himself
-//  return decode.substring(0, decode.indexOf('\n')); //nom = he
-//}
-//String getAcc() {
-//  String decode = readPronouns(); //Pretend decode = he(\n)him(\n)his(\n)himself
-//  decode = decode
-//      .substring(decode.indexOf('\n') + 1); //decode = him(\n)his(\n)himself
-//  return decode.substring(0, decode.indexOf('\n')); //acc = him
-//}
-//String getGen() {
-//  String decode = readPronouns(); //Pretend decode = he(\n)him(\n)his(\n)himself
-//  for (int i = 0; i < 2; i++) {
-//    decode = decode.substring(decode.indexOf('\n') + 1);
-//  } //decode = his(\n)himself
-//  return decode.substring(0, decode.indexOf('\n')); //gen = his
-//}
-//String getRef() {
-//  String decode = readPronouns(); //Pretend decode = he(\n)him(\n)his(\n)himself
-//  for (int i = 0; i < 3; i++) {
-//    decode = decode.substring(decode.indexOf('\n') + 1);
-//  } //decode = himself
-//  return decode;
-//}
 
 void main() => runApp(const MyApp());
 
@@ -63,11 +21,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: const MyHomePage(
-          title: 'Main Page',
-          nom: 'He',
-          acc: 'Him',
-          gen: 'His',
-          ref: 'Himself'),
+          title: 'Main Page', nom: '', acc: '', gen: '', ref: ''),
     );
   }
 }
@@ -112,6 +66,41 @@ class _MyHomePageState extends State<MyHomePage> {
   String? reffluid;
   bool firstInit = true;
 
+  //File? pronounFile;
+
+  Future<String> _getPath() async {
+    final _dir = await getApplicationDocumentsDirectory();
+    return _dir.path;
+  }
+
+  void _load() async {
+    final _path = await _getPath();
+    final pFile = File('$_path/pronouns.txt');
+
+    if (await pFile.length() == 0) {
+      pFile.writeAsString('He\nHim\nHis\nHimself');
+    }
+
+    final List<String> _loaded = await pFile.readAsLines();
+    setState(() {
+      getPronounsFromFile(_loaded);
+    });
+  }
+
+  void getPronounsFromFile(List<String> data) {
+    //nomfluid = data.substring(0, data.indexOf('\n'));
+    //data = data.substring(data.indexOf('\n') + 1);
+    //accfluid = data.substring(0, data.indexOf('\n'));
+    //data = data.substring(data.indexOf('\n') + 1);
+    //genfluid = data.substring(0, data.indexOf('\n'));
+    //data = data.substring(data.indexOf('\n') + 1);
+    //reffluid = data.substring(0, data.indexOf('\n'));
+    nomfluid = data[0];
+    accfluid = data[1];
+    genfluid = data[2];
+    reffluid = data[3];
+  }
+
   void _settingsScreenReturn(BuildContext context) async {
     final List result = await Navigator.push(
         context,
@@ -122,6 +111,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 acc: accfluid!,
                 gen: genfluid!,
                 ref: reffluid!)));
+
+    final _path = await _getPath();
+    final pFile = File('$_path/pronouns.txt');
+    await pFile.writeAsString('$result[0]\n$result[1]\n$result[2]\n$result[3]');
+
     setState(() {
       nomfluid = result[0];
       accfluid = result[1];
@@ -133,12 +127,14 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     if (firstInit) {
-      nomfluid = widget.nom;
-      accfluid = widget.acc;
-      genfluid = widget.gen;
-      reffluid = widget.ref;
+      _load();
+      //nomfluid = widget.nom;
+      //accfluid = widget.acc;
+      //genfluid = widget.gen;
+      //reffluid = widget.ref;
       firstInit = false;
     }
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -185,39 +181,39 @@ class _MyHomePageState extends State<MyHomePage> {
               'Quick Use',
               style: Theme.of(context).textTheme.headline5,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                TextButton(
-                  style: TextButton.styleFrom(
-                    textStyle: const TextStyle(fontSize: 25),
-                  ),
-                  onPressed: () => _speak(nomfluid!),
-                  child: Text(nomfluid!),
-                ),
-                TextButton(
-                  style: TextButton.styleFrom(
-                    textStyle: const TextStyle(fontSize: 25),
-                  ),
-                  onPressed: () => _speak(accfluid!),
-                  child: Text(accfluid!),
-                ),
-                TextButton(
-                  style: TextButton.styleFrom(
-                    textStyle: const TextStyle(fontSize: 25),
-                  ),
-                  onPressed: () => _speak(genfluid!),
-                  child: Text(genfluid!),
-                ),
-                TextButton(
-                  style: TextButton.styleFrom(
-                    textStyle: const TextStyle(fontSize: 25),
-                  ),
-                  onPressed: () => _speak(reffluid!),
-                  child: Text(reffluid!),
-                ),
-              ],
-            ),
+            //Row(
+            //  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //  children: <Widget>[
+            //    TextButton(
+            //      style: TextButton.styleFrom(
+            //        textStyle: const TextStyle(fontSize: 25),
+            //      ),
+            //      onPressed: () => _speak(nomfluid!),
+            //      child: Text(nomfluid!),
+            //    ),
+            //    TextButton(
+            //      style: TextButton.styleFrom(
+            //        textStyle: const TextStyle(fontSize: 25),
+            //      ),
+            //      onPressed: () => _speak(accfluid!),
+            //      child: Text(accfluid!),
+            //    ),
+            //    TextButton(
+            //      style: TextButton.styleFrom(
+            //        textStyle: const TextStyle(fontSize: 25),
+            //      ),
+            //      onPressed: () => _speak(genfluid!),
+            //      child: Text(genfluid!),
+            //    ),
+            //    TextButton(
+            //      style: TextButton.styleFrom(
+            //        textStyle: const TextStyle(fontSize: 25),
+            //      ),
+            //      onPressed: () => _speak(reffluid!),
+            //      child: Text(reffluid!),
+            //    ),
+            //  ],
+            //),
           ],
         ),
       ),

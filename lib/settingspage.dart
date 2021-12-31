@@ -86,6 +86,10 @@ class _SettingsPageState extends State<SettingsPage> {
         break;
     }
 
+    if (determineRadio() == 3) {
+      checkEnabled = true;
+    }
+
     return Scaffold(
       body: Center(
         child: Column(

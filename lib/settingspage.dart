@@ -43,29 +43,26 @@ class _SettingsPageState extends State<SettingsPage> {
       firstInit = false;
     }
 
-    void updateDropDown() {
-      if (widget.nom == 'He' &&
-          widget.acc == 'Him' &&
-          widget.gen == 'His' &&
-          widget.ref == 'Himself') {
-        radioPicked = RadioOptions.male;
-      } else if (widget.nom == 'She' &&
-          widget.acc == 'Her' &&
-          widget.gen == 'Her' &&
-          widget.ref == 'Herself') {
-        radioPicked = RadioOptions.female;
-      } else if (widget.nom == 'They' &&
-          widget.acc == 'Them' &&
-          widget.gen == 'Their' &&
-          widget.ref == 'Themself') {
-        radioPicked = RadioOptions.nonbinary;
+    void updateTextFields() {
+      if (nomSettings == 'He' &&
+              accSettings == 'Him' &&
+              genSettings == 'His' &&
+              refSettings == 'Himself' ||
+          nomSettings == 'She' &&
+              accSettings == 'Her' &&
+              genSettings == 'Her' &&
+              refSettings == 'Herself' ||
+          nomSettings == 'They' &&
+              accSettings == 'Them' &&
+              genSettings == 'Their' &&
+              refSettings == 'Themself') {
+        checkEnabled = false;
       } else {
-        radioPicked = RadioOptions.custom;
         checkEnabled = true;
       }
     }
 
-    updateDropDown();
+    updateTextFields();
 
     const Divider myDiv = Divider(
       color: Colors.black,
@@ -73,48 +70,6 @@ class _SettingsPageState extends State<SettingsPage> {
       indent: 15,
       endIndent: 15,
     );
-
-    String? labelDecide(int choice) {
-      switch (choice) {
-        case 0: //Nominative
-          if (radioPicked == RadioOptions.male) {
-            return 'He';
-          } else if (radioPicked == RadioOptions.female) {
-            return 'She';
-          } else if (radioPicked == RadioOptions.nonbinary) {
-            return 'They';
-          }
-          break;
-        case 1: //Accusative
-          if (radioPicked == RadioOptions.male) {
-            return 'Him';
-          } else if (radioPicked == RadioOptions.female) {
-            return 'Her';
-          } else if (radioPicked == RadioOptions.nonbinary) {
-            return 'Them';
-          }
-          break;
-        case 2: //Genitive
-          if (radioPicked == RadioOptions.male) {
-            return 'His';
-          } else if (radioPicked == RadioOptions.female) {
-            return 'Her';
-          } else if (radioPicked == RadioOptions.nonbinary) {
-            return 'Their';
-          }
-          break;
-        case 3: //Reflexive
-          if (radioPicked == RadioOptions.male) {
-            return 'Himself';
-          } else if (radioPicked == RadioOptions.female) {
-            return 'Herself';
-          } else if (radioPicked == RadioOptions.nonbinary) {
-            return 'Themselves';
-          }
-          break;
-      }
-      return null;
-    }
 
     return Scaffold(
       body: Center(
@@ -134,7 +89,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 onChanged: (RadioOptions? value) {
                   setState(() {
                     radioPicked = value;
-                    checkEnabled = false;
+                    nomSettings = 'He';
+                    accSettings = 'Him';
+                    genSettings = 'His';
+                    refSettings = 'Himself';
                   });
                 }),
             RadioListTile<RadioOptions>(
@@ -144,7 +102,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 onChanged: (RadioOptions? value) {
                   setState(() {
                     radioPicked = value;
-                    checkEnabled = false;
+                    nomSettings = 'She';
+                    accSettings = 'Her';
+                    genSettings = 'Her';
+                    refSettings = 'Herself';
                   });
                 }),
             RadioListTile<RadioOptions>(
@@ -154,7 +115,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 onChanged: (RadioOptions? value) {
                   setState(() {
                     radioPicked = value;
-                    checkEnabled = false;
+                    nomSettings = 'They';
+                    accSettings = 'Them';
+                    genSettings = 'Their';
+                    refSettings = 'Themself';
                   });
                 }),
             RadioListTile<RadioOptions>(
@@ -164,7 +128,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 onChanged: (RadioOptions? value) {
                   setState(() {
                     radioPicked = value;
-                    checkEnabled = true;
+                    nomSettings = '';
+                    accSettings = '';
+                    genSettings = '';
+                    refSettings = '';
                   });
                 }),
             myDiv,
@@ -183,7 +150,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   width: 150,
                   child: TextField(
                     enabled: checkEnabled,
-                    controller: TextEditingController(text: labelDecide(0)),
+                    controller: TextEditingController(text: nomSettings),
                     onSubmitted: (value) {
                       nomSettings = value;
                     },
@@ -206,7 +173,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   width: 150,
                   child: TextField(
                     enabled: checkEnabled,
-                    controller: TextEditingController(text: labelDecide(1)),
+                    controller: TextEditingController(text: accSettings),
                     onSubmitted: (value) {
                       accSettings = value;
                     },
@@ -229,7 +196,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   width: 150,
                   child: TextField(
                     enabled: checkEnabled,
-                    controller: TextEditingController(text: labelDecide(2)),
+                    controller: TextEditingController(text: genSettings),
                     onSubmitted: (value) {
                       genSettings = value;
                     },
@@ -252,7 +219,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   width: 150,
                   child: TextField(
                     enabled: checkEnabled,
-                    controller: TextEditingController(text: labelDecide(3)),
+                    controller: TextEditingController(text: refSettings),
                     onSubmitted: (value) {
                       refSettings = value;
                     },

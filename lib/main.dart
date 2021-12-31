@@ -51,22 +51,6 @@ void writePronouns(String nom, String acc, String gen, String ref) {
 //  return decode;
 //}
 
-String getNom() {
-  return 'they';
-}
-
-String getAcc() {
-  return 'them';
-}
-
-String getGen() {
-  return 'their';
-}
-
-String getRef() {
-  return 'themselves';
-}
-
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
@@ -122,32 +106,39 @@ class _MyHomePageState extends State<MyHomePage> {
     await tts.speak(phrase);
   }
 
-  void _affirmScreenReturn(BuildContext context, String nomgiven,
-      String accgiven, String gengiven, String refgiven) async {
-    final result = await Navigator.push(
+  String? nomfluid;
+  String? accfluid;
+  String? genfluid;
+  String? reffluid;
+  bool firstInit = true;
+
+  void _settingsScreenReturn(BuildContext context) async {
+    final List result = await Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => AffirmPage(
-                title: "Affirm",
-                nom: nomgiven,
-                acc: accgiven,
-                gen: gengiven,
-                ref: refgiven)));
+            builder: (context) => SettingsPage(
+                title: "Settings",
+                nom: nomfluid!,
+                acc: accfluid!,
+                gen: genfluid!,
+                ref: reffluid!)));
     setState(() {
-      nomgiven = result[0];
-      accgiven = result[1];
-      gengiven = result[2];
-      refgiven = result[3];
+      nomfluid = result[0];
+      accfluid = result[1];
+      genfluid = result[2];
+      reffluid = result[3];
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    String nomfluid = widget.nom;
-    String accfluid = widget.acc;
-    String genfluid = widget.gen;
-    String reffluid = widget.ref;
-
+    if (firstInit) {
+      nomfluid = widget.nom;
+      accfluid = widget.acc;
+      genfluid = widget.gen;
+      reffluid = widget.ref;
+      firstInit = false;
+    }
     return Scaffold(
       body: Center(
         child: Column(
@@ -164,8 +155,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 textStyle: const TextStyle(fontSize: 35),
               ),
               onPressed: () {
-                _affirmScreenReturn(
-                    context, nomfluid, accfluid, genfluid, reffluid);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AffirmPage(
+                            title: "Affirm",
+                            nom: nomfluid!,
+                            acc: accfluid!,
+                            gen: genfluid!,
+                            ref: reffluid!)));
               },
               child: const Text('Affirm'),
             ),
@@ -174,16 +172,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 textStyle: const TextStyle(fontSize: 35),
               ),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => SettingsPage(
-                          title: "Settings",
-                          nom: nomfluid,
-                          acc: accfluid,
-                          gen: genfluid,
-                          ref: reffluid)),
-                );
+                _settingsScreenReturn(context);
               },
               child: const Text('Settings'),
             ),
@@ -203,29 +192,29 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: TextButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 25),
                   ),
-                  onPressed: () => _speak(nomfluid),
-                  child: Text(nomfluid),
+                  onPressed: () => _speak(nomfluid!),
+                  child: Text(nomfluid!),
                 ),
                 TextButton(
                   style: TextButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 25),
                   ),
-                  onPressed: () => _speak(accfluid),
-                  child: Text(accfluid),
+                  onPressed: () => _speak(accfluid!),
+                  child: Text(accfluid!),
                 ),
                 TextButton(
                   style: TextButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 25),
                   ),
-                  onPressed: () => _speak(genfluid),
-                  child: Text(genfluid),
+                  onPressed: () => _speak(genfluid!),
+                  child: Text(genfluid!),
                 ),
                 TextButton(
                   style: TextButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 25),
                   ),
-                  onPressed: () => _speak(reffluid),
-                  child: Text(reffluid),
+                  onPressed: () => _speak(reffluid!),
+                  child: Text(reffluid!),
                 ),
               ],
             ),

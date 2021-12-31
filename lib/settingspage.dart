@@ -28,24 +28,24 @@ class _SettingsPageState extends State<SettingsPage> {
   bool checkEnabled = false;
   bool firstInit = true;
 
-  void determineRadio() {
+  int determineRadio() {
     if (nomSettings == 'He' &&
         accSettings == 'Him' &&
         genSettings == 'His' &&
         refSettings == 'Himself') {
-      radioPicked = RadioOptions.male;
+      return 0;
     } else if (nomSettings == 'She' &&
         accSettings == 'Her' &&
         genSettings == 'Her' &&
         refSettings == 'Herself') {
-      radioPicked = RadioOptions.female;
+      return 1;
     } else if (nomSettings == 'They' &&
         accSettings == 'Them' &&
         genSettings == 'Their' &&
         refSettings == 'Themself') {
-      radioPicked = RadioOptions.nonbinary;
+      return 2;
     } else {
-      radioPicked = RadioOptions.custom;
+      return 3;
     }
   }
 
@@ -71,7 +71,20 @@ class _SettingsPageState extends State<SettingsPage> {
       endIndent: 15,
     );
 
-    determineRadio();
+    switch (determineRadio()) {
+      case 0:
+        radioPicked = RadioOptions.male;
+        break;
+      case 1:
+        radioPicked = RadioOptions.female;
+        break;
+      case 2:
+        radioPicked = RadioOptions.nonbinary;
+        break;
+      case 3:
+        radioPicked = RadioOptions.custom;
+        break;
+    }
 
     return Scaffold(
       body: Center(
@@ -133,10 +146,12 @@ class _SettingsPageState extends State<SettingsPage> {
                 onChanged: (RadioOptions? value) {
                   setState(() {
                     radioPicked = value;
-                    nomSettings = '';
-                    accSettings = '';
-                    genSettings = '';
-                    refSettings = '';
+                    if (determineRadio() != 3) {
+                      nomSettings = '';
+                      accSettings = '';
+                      genSettings = '';
+                      refSettings = '';
+                    }
                     checkEnabled = true;
                   });
                 }),

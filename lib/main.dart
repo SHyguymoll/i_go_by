@@ -77,9 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final _path = await _getPath();
     final pFile = File('$_path/pronouns.txt');
 
-    if (await pFile.length() == 0) {
-      pFile.writeAsString('He\nHim\nHis\nHimself');
-    }
+    pFile.writeAsString('He\nHim\nHis\nHimself', mode: FileMode.writeOnly);
 
     final List<String> _loaded = await pFile.readAsLines();
     setState(() {
@@ -181,39 +179,7 @@ class _MyHomePageState extends State<MyHomePage> {
               'Quick Use',
               style: Theme.of(context).textTheme.headline5,
             ),
-            //Row(
-            //  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //  children: <Widget>[
-            //    TextButton(
-            //      style: TextButton.styleFrom(
-            //        textStyle: const TextStyle(fontSize: 25),
-            //      ),
-            //      onPressed: () => _speak(nomfluid!),
-            //      child: Text(nomfluid!),
-            //    ),
-            //    TextButton(
-            //      style: TextButton.styleFrom(
-            //        textStyle: const TextStyle(fontSize: 25),
-            //      ),
-            //      onPressed: () => _speak(accfluid!),
-            //      child: Text(accfluid!),
-            //    ),
-            //    TextButton(
-            //      style: TextButton.styleFrom(
-            //        textStyle: const TextStyle(fontSize: 25),
-            //      ),
-            //      onPressed: () => _speak(genfluid!),
-            //      child: Text(genfluid!),
-            //    ),
-            //    TextButton(
-            //      style: TextButton.styleFrom(
-            //        textStyle: const TextStyle(fontSize: 25),
-            //      ),
-            //      onPressed: () => _speak(reffluid!),
-            //      child: Text(reffluid!),
-            //    ),
-            //  ],
-            //),
+            //quickAccess, //broken due to file loading errors, fix later
           ],
         ),
       ),
@@ -222,6 +188,40 @@ class _MyHomePageState extends State<MyHomePage> {
       //  tooltip: 'Increment',
       //  child: const Icon(Icons.add),
       //), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+
+    Row quickAccess = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        TextButton(
+          style: TextButton.styleFrom(
+            textStyle: const TextStyle(fontSize: 25),
+          ),
+          onPressed: () => _speak(nomfluid!),
+          child: Text(nomfluid!),
+        ),
+        TextButton(
+          style: TextButton.styleFrom(
+            textStyle: const TextStyle(fontSize: 25),
+          ),
+          onPressed: () => _speak(accfluid!),
+          child: Text(accfluid!),
+        ),
+        TextButton(
+          style: TextButton.styleFrom(
+            textStyle: const TextStyle(fontSize: 25),
+          ),
+          onPressed: () => _speak(genfluid!),
+          child: Text(genfluid!),
+        ),
+        TextButton(
+          style: TextButton.styleFrom(
+            textStyle: const TextStyle(fontSize: 25),
+          ),
+          onPressed: () => _speak(reffluid!),
+          child: Text(reffluid!),
+        ),
+      ],
     );
   }
 }

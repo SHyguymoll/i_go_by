@@ -22,11 +22,32 @@ class SettingsPage extends StatefulWidget {
 
 enum RadioOptions { male, female, nonbinary, custom }
 
-class _SettingsPageState extends State<SettingsPage> {
-  RadioOptions? radioPicked = RadioOptions.male;
+RadioOptions? radioPicked;
 
+class _SettingsPageState extends State<SettingsPage> {
   bool checkEnabled = false;
   bool firstInit = true;
+
+  void determineRadio() {
+    if (nomSettings == 'He' &&
+        accSettings == 'Him' &&
+        genSettings == 'His' &&
+        refSettings == 'Himself') {
+      radioPicked = RadioOptions.male;
+    } else if (nomSettings == 'She' &&
+        accSettings == 'Her' &&
+        genSettings == 'Her' &&
+        refSettings == 'Herself') {
+      radioPicked = RadioOptions.female;
+    } else if (nomSettings == 'They' &&
+        accSettings == 'Them' &&
+        genSettings == 'Their' &&
+        refSettings == 'Themself') {
+      radioPicked = RadioOptions.nonbinary;
+    } else {
+      radioPicked = RadioOptions.custom;
+    }
+  }
 
   String? nomSettings;
   String? accSettings;
@@ -43,33 +64,14 @@ class _SettingsPageState extends State<SettingsPage> {
       firstInit = false;
     }
 
-    void updateTextFields() {
-      if (nomSettings == 'He' &&
-              accSettings == 'Him' &&
-              genSettings == 'His' &&
-              refSettings == 'Himself' ||
-          nomSettings == 'She' &&
-              accSettings == 'Her' &&
-              genSettings == 'Her' &&
-              refSettings == 'Herself' ||
-          nomSettings == 'They' &&
-              accSettings == 'Them' &&
-              genSettings == 'Their' &&
-              refSettings == 'Themself') {
-        checkEnabled = false;
-      } else {
-        checkEnabled = true;
-      }
-    }
-
-    updateTextFields();
-
     const Divider myDiv = Divider(
       color: Colors.black,
       thickness: 1,
       indent: 15,
       endIndent: 15,
     );
+
+    determineRadio();
 
     return Scaffold(
       body: Center(
@@ -93,6 +95,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     accSettings = 'Him';
                     genSettings = 'His';
                     refSettings = 'Himself';
+                    checkEnabled = false;
                   });
                 }),
             RadioListTile<RadioOptions>(
@@ -106,6 +109,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     accSettings = 'Her';
                     genSettings = 'Her';
                     refSettings = 'Herself';
+                    checkEnabled = false;
                   });
                 }),
             RadioListTile<RadioOptions>(
@@ -119,6 +123,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     accSettings = 'Them';
                     genSettings = 'Their';
                     refSettings = 'Themself';
+                    checkEnabled = false;
                   });
                 }),
             RadioListTile<RadioOptions>(
@@ -132,6 +137,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     accSettings = '';
                     genSettings = '';
                     refSettings = '';
+                    checkEnabled = true;
                   });
                 }),
             myDiv,
@@ -152,7 +158,9 @@ class _SettingsPageState extends State<SettingsPage> {
                     enabled: checkEnabled,
                     controller: TextEditingController(text: nomSettings),
                     onSubmitted: (value) {
-                      nomSettings = value;
+                      setState(() {
+                        nomSettings = value;
+                      });
                     },
                   ),
                 )
@@ -175,7 +183,9 @@ class _SettingsPageState extends State<SettingsPage> {
                     enabled: checkEnabled,
                     controller: TextEditingController(text: accSettings),
                     onSubmitted: (value) {
-                      accSettings = value;
+                      setState(() {
+                        accSettings = value;
+                      });
                     },
                   ),
                 )
@@ -198,7 +208,9 @@ class _SettingsPageState extends State<SettingsPage> {
                     enabled: checkEnabled,
                     controller: TextEditingController(text: genSettings),
                     onSubmitted: (value) {
-                      genSettings = value;
+                      setState(() {
+                        genSettings = value;
+                      });
                     },
                   ),
                 )
@@ -221,7 +233,9 @@ class _SettingsPageState extends State<SettingsPage> {
                     enabled: checkEnabled,
                     controller: TextEditingController(text: refSettings),
                     onSubmitted: (value) {
-                      refSettings = value;
+                      setState(() {
+                        refSettings = value;
+                      });
                     },
                   ),
                 )

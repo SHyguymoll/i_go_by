@@ -77,10 +77,11 @@ class _MyHomePageState extends State<MyHomePage> {
   void _load() async {
     final _path = await _getPath();
     final pFile = File('$_path/pronouns.txt');
-
-    pFile.writeAsString('He\nHim\nHis\nHimself', mode: FileMode.writeOnly);
-
-    final List<String> _loaded = await pFile.readAsLines();
+    if (await pFile.exists() == false) {
+      pFile.writeAsString('He\nHim\nHis\nHimself', mode: FileMode.writeOnly);
+    }
+    print(await pFile.readAsString());
+    List<String> _loaded = await pFile.readAsLines();
     setState(() {
       getPronounsFromFile(_loaded);
       quick = <Widget>[
@@ -143,7 +144,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
     final _path = await _getPath();
     final pFile = File('$_path/pronouns.txt');
-    await pFile.writeAsString('$result[0]\n$result[1]\n$result[2]\n$result[3]');
+    await pFile.writeAsString(
+        '${result[0]}\n${result[1]}\n${result[2]}\n${result[3]}');
 
     setState(() {
       nomfluid = result[0];

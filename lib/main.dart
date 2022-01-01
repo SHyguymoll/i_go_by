@@ -8,6 +8,7 @@ import 'dart:io';
 
 import 'affirmpage.dart';
 import 'settingspage.dart';
+import 'credits.dart';
 
 void main() => runApp(const MyApp());
 
@@ -118,13 +119,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void getPronounsFromFile(List<String> data) {
-    //nomfluid = data.substring(0, data.indexOf('\n'));
-    //data = data.substring(data.indexOf('\n') + 1);
-    //accfluid = data.substring(0, data.indexOf('\n'));
-    //data = data.substring(data.indexOf('\n') + 1);
-    //genfluid = data.substring(0, data.indexOf('\n'));
-    //data = data.substring(data.indexOf('\n') + 1);
-    //reffluid = data.substring(0, data.indexOf('\n'));
     nomfluid = data[0];
     accfluid = data[1];
     genfluid = data[2];
@@ -237,6 +231,16 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               ' ',
               style: Theme.of(context).textTheme.headline4,
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: const TextStyle(fontSize: 15),
+              ),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Credits()));
+              },
+              child: const Text('Credits'),
             ),
             myDiv,
             Text(

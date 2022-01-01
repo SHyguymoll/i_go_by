@@ -80,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if (await pFile.exists() == false) {
       pFile.writeAsString('He\nHim\nHis\nHimself', mode: FileMode.writeOnly);
     }
-    print(await pFile.readAsString());
+
     List<String> _loaded = await pFile.readAsLines();
     setState(() {
       getPronounsFromFile(_loaded);

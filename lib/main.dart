@@ -194,7 +194,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             const Text('I Go By',
                 style: TextStyle(
@@ -202,6 +202,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: Colors.purple,
                   fontWeight: FontWeight.bold,
                 )),
+            myDiv,
             OutlinedButton(
               style: TextButton.styleFrom(
                 textStyle: const TextStyle(fontSize: 55),

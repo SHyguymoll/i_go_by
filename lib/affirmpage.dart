@@ -61,12 +61,36 @@ class _AffirmPageState extends State<AffirmPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Sorry, I go by ${widget.nom}/${widget.acc}',
+                Text(
+                    'Please respect my pronouns,\nthey are ${widget.nom}/${widget.acc}',
                     style: const TextStyle(
-                      fontSize: 15,
+                      fontSize: 25,
                       color: Colors.green,
+                      fontWeight: FontWeight.bold,
                     )),
                 IconButton(
+                  iconSize: 30,
+                  icon: const Icon(Icons.volume_up_sharp),
+                  tooltip: 'Play sound',
+                  onPressed: () {
+                    _speak(
+                        'Please respect my pronouns, they are ${widget.nom}/${widget.acc}');
+                    _incrementCounter();
+                  },
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Sorry, I go by ${widget.nom}/${widget.acc}',
+                    style: const TextStyle(
+                      fontSize: 30,
+                      color: Colors.green,
+                      fontWeight: FontWeight.bold,
+                    )),
+                IconButton(
+                  iconSize: 30,
                   icon: const Icon(Icons.volume_up_sharp),
                   tooltip: 'Play sound',
                   onPressed: () {
@@ -81,10 +105,12 @@ class _AffirmPageState extends State<AffirmPage> {
               children: [
                 Text('Please use ${widget.nom}/${widget.acc}',
                     style: const TextStyle(
-                      fontSize: 15,
+                      fontSize: 35,
                       color: Colors.green,
+                      fontWeight: FontWeight.bold,
                     )),
                 IconButton(
+                  iconSize: 30,
                   icon: const Icon(Icons.volume_up_sharp),
                   tooltip: 'Play sound',
                   onPressed: () {
@@ -99,10 +125,12 @@ class _AffirmPageState extends State<AffirmPage> {
               children: [
                 Text('I go by ${widget.nom}/${widget.acc}',
                     style: const TextStyle(
-                      fontSize: 15,
+                      fontSize: 35,
                       color: Colors.green,
+                      fontWeight: FontWeight.bold,
                     )),
                 IconButton(
+                  iconSize: 30,
                   icon: const Icon(Icons.volume_up_sharp),
                   tooltip: 'Play sound',
                   onPressed: () {
@@ -115,32 +143,14 @@ class _AffirmPageState extends State<AffirmPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                    'Please respect my pronouns, they are ${widget.nom}/${widget.acc}',
-                    style: const TextStyle(
-                      fontSize: 15,
-                      color: Colors.green,
-                    )),
-                IconButton(
-                  icon: const Icon(Icons.volume_up_sharp),
-                  tooltip: 'Play sound',
-                  onPressed: () {
-                    _speak(
-                        'Please respect my pronouns, they are ${widget.nom}/${widget.acc}');
-                    _incrementCounter();
-                  },
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
                 Text('Use ${widget.nom}/${widget.acc}',
                     style: const TextStyle(
-                      fontSize: 15,
+                      fontSize: 40,
                       color: Colors.green,
+                      fontWeight: FontWeight.bold,
                     )),
                 IconButton(
+                  iconSize: 30,
                   icon: const Icon(Icons.volume_up_sharp),
                   tooltip: 'Play sound',
                   onPressed: () {
@@ -155,10 +165,12 @@ class _AffirmPageState extends State<AffirmPage> {
               children: [
                 Text('${widget.nom}/${widget.acc}',
                     style: const TextStyle(
-                      fontSize: 15,
+                      fontSize: 40,
                       color: Colors.green,
+                      fontWeight: FontWeight.bold,
                     )),
                 IconButton(
+                  iconSize: 30,
                   icon: const Icon(Icons.volume_up_sharp),
                   tooltip: 'Play sound',
                   onPressed: () {
@@ -170,7 +182,7 @@ class _AffirmPageState extends State<AffirmPage> {
             ),
             Text(
               'Uses: $_counter',
-              style: const TextStyle(fontSize: 20),
+              style: const TextStyle(fontSize: 30),
             ),
             myDiv,
             TextButton(

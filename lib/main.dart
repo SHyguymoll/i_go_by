@@ -86,30 +86,30 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       getPronounsFromFile(_loaded);
       quick = <Widget>[
-        TextButton(
+        OutlinedButton(
           style: TextButton.styleFrom(
-            textStyle: const TextStyle(fontSize: 25),
+            textStyle: const TextStyle(fontSize: 30),
           ),
           onPressed: () => _speak(nomfluid!),
           child: Text(nomfluid!),
         ),
-        TextButton(
+        OutlinedButton(
           style: TextButton.styleFrom(
-            textStyle: const TextStyle(fontSize: 25),
+            textStyle: const TextStyle(fontSize: 30),
           ),
           onPressed: () => _speak(accfluid!),
           child: Text(accfluid!),
         ),
-        TextButton(
+        OutlinedButton(
           style: TextButton.styleFrom(
-            textStyle: const TextStyle(fontSize: 25),
+            textStyle: const TextStyle(fontSize: 30),
           ),
           onPressed: () => _speak(genfluid!),
           child: Text(genfluid!),
         ),
-        TextButton(
+        OutlinedButton(
           style: TextButton.styleFrom(
-            textStyle: const TextStyle(fontSize: 25),
+            textStyle: const TextStyle(fontSize: 30),
           ),
           onPressed: () => _speak(reffluid!),
           child: Text(reffluid!),
@@ -202,9 +202,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: Colors.purple,
                   fontWeight: FontWeight.bold,
                 )),
-            TextButton(
+            OutlinedButton(
               style: TextButton.styleFrom(
-                textStyle: const TextStyle(fontSize: 35),
+                textStyle: const TextStyle(fontSize: 55),
               ),
               onPressed: () {
                 Navigator.push(
@@ -219,9 +219,9 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: const Text('Affirm'),
             ),
-            TextButton(
+            OutlinedButton(
               style: TextButton.styleFrom(
-                textStyle: const TextStyle(fontSize: 35),
+                textStyle: const TextStyle(fontSize: 45),
               ),
               onPressed: () {
                 _settingsScreenReturn(context);
@@ -229,12 +229,12 @@ class _MyHomePageState extends State<MyHomePage> {
               child: const Text('Settings'),
             ),
             Text(
-              ' ',
-              style: Theme.of(context).textTheme.headline4,
+              '',
+              style: Theme.of(context).textTheme.headline6,
             ),
-            TextButton(
+            OutlinedButton(
               style: TextButton.styleFrom(
-                textStyle: const TextStyle(fontSize: 15),
+                textStyle: const TextStyle(fontSize: 30),
               ),
               onPressed: () {
                 Navigator.push(context,
@@ -245,7 +245,7 @@ class _MyHomePageState extends State<MyHomePage> {
             myDiv,
             Text(
               'Quick Use',
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.headline4,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

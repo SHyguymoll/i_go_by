@@ -44,11 +44,11 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.i_go_by"
+        applicationId "com.solapps.i_go_by"
         minSdkVersion 21 //required change to support flutter_tts
-        targetSdkVersion flutter.targetSdkVersion
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        targetSdkVersion 32
+        versionCode 1
+        versionName "1.0"
     }
 
     buildTypes {

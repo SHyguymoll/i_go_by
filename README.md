@@ -1,16 +1,8 @@
 # i_go_by
 
-A new Flutter project. Work began on the 18th of December, but I neglected to use Github until now.
+An app created with Flutter. Work began on the 18th of December, but I neglected to use Github until now.
 
-## Getting Started
+Uses TTS to state the user's pronouns. Pronouns can be customized to user's liking.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Download Latest Version
+[here](https://github.com/SMolletSchool/i_go_by/releases/tag/v1.0.0)

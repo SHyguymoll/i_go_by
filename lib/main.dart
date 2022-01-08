@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:path_provider/path_provider.dart';
@@ -22,7 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: const MyHomePage(
-          title: 'Main Page', nom: '', acc: '', gen: '', ref: ''),
+          title: 'Main Page', nom: '', acc: '', gen: '', ref: '', uses: 0),
     );
   }
 }
@@ -34,7 +32,8 @@ class MyHomePage extends StatefulWidget {
       required this.nom,
       required this.acc,
       required this.gen,
-      required this.ref})
+      required this.ref,
+      required this.uses})
       : super(key: key);
 
   final String title;
@@ -42,6 +41,7 @@ class MyHomePage extends StatefulWidget {
   final String acc;
   final String gen;
   final String ref;
+  final int uses;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -65,6 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String? accfluid;
   String? genfluid;
   String? reffluid;
+  int usesfluid = 0;
   List<Widget> quick = [];
   bool firstInit = true;
 
@@ -78,8 +79,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void _load() async {
     final _path = await _getPath();
     final pFile = File('$_path/pronouns.txt');
-    if (await pFile.exists() == false) {
-      pFile.writeAsString('He\nHim\nHis\nHimself', mode: FileMode.writeOnly);
+    if (!(await pFile.exists())) {
+      pFile.writeAsString('He\nHim\nHis\nHimself\n0', mode: FileMode.writeOnly);
     }
 
     List<String> _loaded = await pFile.readAsLines();
@@ -90,28 +91,39 @@ class _MyHomePageState extends State<MyHomePage> {
           style: TextButton.styleFrom(
             textStyle: const TextStyle(fontSize: 30),
           ),
-          onPressed: () => _speak(nomfluid!),
+          onPressed: () {
+            _speak(nomfluid!);
+            setState(() {
+              usesfluid++;
+            });
+          },
           child: Text(nomfluid!),
         ),
         OutlinedButton(
           style: TextButton.styleFrom(
             textStyle: const TextStyle(fontSize: 30),
           ),
-          onPressed: () => _speak(accfluid!),
+          onPressed: () {
+            _speak(accfluid!);
+          },
           child: Text(accfluid!),
         ),
         OutlinedButton(
           style: TextButton.styleFrom(
             textStyle: const TextStyle(fontSize: 30),
           ),
-          onPressed: () => _speak(genfluid!),
+          onPressed: () {
+            _speak(genfluid!);
+          },
           child: Text(genfluid!),
         ),
         OutlinedButton(
           style: TextButton.styleFrom(
             textStyle: const TextStyle(fontSize: 30),
           ),
-          onPressed: () => _speak(reffluid!),
+          onPressed: () {
+            _speak(reffluid!);
+          },
           child: Text(reffluid!),
         ),
       ];
@@ -123,6 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
     accfluid = data[1];
     genfluid = data[2];
     reffluid = data[3];
+    usesfluid = int.parse(data[4]);
   }
 
   void _settingsScreenReturn(BuildContext context) async {
@@ -130,22 +143,48 @@ class _MyHomePageState extends State<MyHomePage> {
         context,
         MaterialPageRoute(
             builder: (context) => SettingsPage(
-                title: "Settings",
-                nom: nomfluid!,
-                acc: accfluid!,
-                gen: genfluid!,
-                ref: reffluid!)));
+                  title: "Settings",
+                  nom: nomfluid!,
+                  acc: accfluid!,
+                  gen: genfluid!,
+                  ref: reffluid!,
+                  useCount: usesfluid,
+                )));
 
-    final _path = await _getPath();
-    final pFile = File('$_path/pronouns.txt');
-    await pFile.writeAsString(
-        '${result[0]}\n${result[1]}\n${result[2]}\n${result[3]}');
+    await File('${await _getPath()}/pronouns.txt').writeAsString(
+        '${result[0]}\n${result[1]}\n${result[2]}\n${result[3]}\n${result[4]}');
 
     setState(() {
       nomfluid = result[0];
       accfluid = result[1];
       genfluid = result[2];
       reffluid = result[3];
+      usesfluid = result[4];
+    });
+  }
+
+  void _affirmScreenReturn(BuildContext context) async {
+    final List result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => AffirmPage(
+                  title: "Affirm",
+                  nom: nomfluid!,
+                  acc: accfluid!,
+                  gen: genfluid!,
+                  ref: reffluid!,
+                  grabbedUses: usesfluid,
+                )));
+
+    await File('${await _getPath()}/pronouns.txt').writeAsString(
+        '${result[0]}\n${result[1]}\n${result[2]}\n${result[3]}\n${result[4]}');
+
+    setState(() {
+      nomfluid = result[0];
+      accfluid = result[1];
+      genfluid = result[2];
+      reffluid = result[3];
+      usesfluid = result[4];
     });
   }
 
@@ -153,10 +192,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     if (firstInit) {
       _load();
-      //nomfluid = widget.nom;
-      //accfluid = widget.acc;
-      //genfluid = widget.gen;
-      //reffluid = widget.ref;
       firstInit = false;
     } else {
       quick = <Widget>[
@@ -164,28 +199,48 @@ class _MyHomePageState extends State<MyHomePage> {
           style: TextButton.styleFrom(
             textStyle: const TextStyle(fontSize: 25),
           ),
-          onPressed: () => _speak(nomfluid!),
+          onPressed: () {
+            _speak(nomfluid!);
+            setState(() {
+              usesfluid++;
+            });
+          },
           child: Text(nomfluid!),
         ),
         TextButton(
           style: TextButton.styleFrom(
             textStyle: const TextStyle(fontSize: 25),
           ),
-          onPressed: () => _speak(accfluid!),
+          onPressed: () {
+            _speak(accfluid!);
+            setState(() {
+              usesfluid++;
+            });
+          },
           child: Text(accfluid!),
         ),
         TextButton(
           style: TextButton.styleFrom(
             textStyle: const TextStyle(fontSize: 25),
           ),
-          onPressed: () => _speak(genfluid!),
+          onPressed: () {
+            _speak(genfluid!);
+            setState(() {
+              usesfluid++;
+            });
+          },
           child: Text(genfluid!),
         ),
         TextButton(
           style: TextButton.styleFrom(
             textStyle: const TextStyle(fontSize: 25),
           ),
-          onPressed: () => _speak(reffluid!),
+          onPressed: () {
+            _speak(reffluid!);
+            setState(() {
+              usesfluid++;
+            });
+          },
           child: Text(reffluid!),
         ),
       ];
@@ -208,15 +263,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 textStyle: const TextStyle(fontSize: 55),
               ),
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => AffirmPage(
-                            title: "Affirm",
-                            nom: nomfluid!,
-                            acc: accfluid!,
-                            gen: genfluid!,
-                            ref: reffluid!)));
+                _affirmScreenReturn(context);
               },
               child: const Text('Affirm'),
             ),
@@ -244,6 +291,8 @@ class _MyHomePageState extends State<MyHomePage> {
               child: const Text('Credits'),
             ),
             myDiv,
+            Text('Uses: $usesfluid',
+                style: Theme.of(context).textTheme.headline6),
             Text(
               'Quick Use',
               style: Theme.of(context).textTheme.headline4,
@@ -252,15 +301,9 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: quick,
             )
-            //broken due to file loading errors, fix later
           ],
         ),
       ),
-      //floatingActionButton: FloatingActionButton(
-      //  onPressed: _incrementCounter,
-      //  tooltip: 'Increment',
-      //  child: const Icon(Icons.add),
-      //), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

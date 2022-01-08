@@ -8,7 +8,8 @@ class AffirmPage extends StatefulWidget {
       required this.nom,
       required this.acc,
       required this.gen,
-      required this.ref})
+      required this.ref,
+      required this.grabbedUses})
       : super(key: key);
 
   final String nom;
@@ -16,6 +17,7 @@ class AffirmPage extends StatefulWidget {
   final String gen;
   final String ref;
   final String title;
+  final int grabbedUses;
 
   @override
   State<AffirmPage> createState() => _AffirmPageState();
@@ -25,6 +27,7 @@ enum TtsState { playing, stopped, paused, continued }
 
 class _AffirmPageState extends State<AffirmPage> {
   int _counter = 0;
+  bool firstInit = true;
 
   final Divider myDiv = const Divider(
     color: Colors.black,
@@ -47,6 +50,11 @@ class _AffirmPageState extends State<AffirmPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (firstInit) {
+      _counter = widget.grabbedUses;
+      firstInit = false;
+    }
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -195,6 +203,7 @@ class _AffirmPageState extends State<AffirmPage> {
                   widget.acc,
                   widget.gen,
                   widget.ref,
+                  _counter,
                 ]);
               },
               child: const Text('Back'),

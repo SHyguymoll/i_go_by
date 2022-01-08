@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage(
-      {Key? key,
-      required this.title,
-      required this.nom,
-      required this.acc,
-      required this.gen,
-      required this.ref})
-      : super(key: key);
+  const SettingsPage({
+    Key? key,
+    required this.title,
+    required this.nom,
+    required this.acc,
+    required this.gen,
+    required this.ref,
+    required this.useCount,
+  }) : super(key: key);
 
   final String nom;
   final String acc;
   final String gen;
   final String ref;
+  final int useCount;
   final String title;
 
   @override
@@ -53,6 +55,7 @@ class _SettingsPageState extends State<SettingsPage> {
   String? accSettings;
   String? genSettings;
   String? refSettings;
+  int? useNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +64,7 @@ class _SettingsPageState extends State<SettingsPage> {
       accSettings = widget.acc;
       genSettings = widget.gen;
       refSettings = widget.ref;
+      useNumber = widget.useCount;
       firstInit = false;
     }
 
@@ -261,6 +265,18 @@ class _SettingsPageState extends State<SettingsPage> {
               ],
             ),
             myDiv,
+            OutlinedButton(
+              style: TextButton.styleFrom(
+                textStyle: const TextStyle(fontSize: 20),
+              ),
+              onPressed: () {
+                setState(() {
+                  useNumber = 0;
+                });
+              },
+              child: Text('Reset Uses (Uses: $useNumber)'),
+            ),
+            myDiv,
             TextButton(
               style: TextButton.styleFrom(
                 textStyle: const TextStyle(fontSize: 25),
@@ -271,6 +287,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   accSettings,
                   genSettings,
                   refSettings,
+                  useNumber,
                 ]);
               },
               child: const Text('Back'),
